@@ -1,0 +1,88 @@
+name: Cloud Build
+
+on:
+  push:
+    branches:
+      - master
+      - n
+      - m
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+
+    # Setup gcloud CLI
+    - uses: mchirico/gcp-actions@v1
+      with:
+        version: 'latest'
+        service_account_key: ${{ secrets.OWNER }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+        gcloud components update --quiet
+
+
+    # Credentials
+    - name: Get and Create Credentials
+      run: |
+       mkdir -p credentials
+       gsutil cp gs://nodesepta/gmail/credentials/proj.json ./credentials/proj.json
+       gsutil cp gs://nodesepta/gmail/credentials/token.pickle ./credentials/token.pickle
+       gsutil cp gs://nodesepta/gmail/credentials/credentials.json ./credentials/credentials.json
+       ls -l
+       ls -l credentials
+
+
+    - name: Test with pytest
+      run: |
+        pip install pytest
+        pip install pytest-cov
+        pip install codecov
+        pytest --cov-report=xml --cov=gmail -p no:warnings tests/
+        codecov --token="${CODECOV_TOKEN}"
+      env:
+        CI: true
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+
+    # Node Make
+#    - run: |
+#        make
+#        make push
+
+
+    # BigQuery
+    - name: Working with BigQuery
+      run: |
+       txt="Cloud build... gmail.cwxstat.com"
+       bq query --nouse_legacy_sql 'CREATE TABLE IF NOT EXISTS  `septapig.github.log` (msg string, timeEnter timestamp);'
+       bq query --nouse_legacy_sql  --parameter=MSG:STRING:"${txt}"  'insert into `septapig.github.log` (msg,timeEnter) values (@MSG,CURRENT_TIMESTAMP())'
+
+
+
+
