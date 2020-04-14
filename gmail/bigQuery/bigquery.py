@@ -21,13 +21,10 @@ class BigQ:
             return row["now"]
 
     def insert(self, id, ret, msg, raw):
-        id = self.clean(id)
-        msg = self.clean(msg)
-
         query = """
           insert into `septapig.mail.mc` (id,returnpath,msg,timeStamp, rawstr) 
           values ('%s','%s','%s','%s','%s')
-          """ % (id, ret, msg,self.getTime(),raw)
+          """ % (id, ret, msg, self.getTime(), raw)
 
         query_job = self.client.query(query)  # Make an API request.
         print("result:", query_job)

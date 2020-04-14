@@ -13,6 +13,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import mimetypes
 import os
+import pickle
 
 from apiclient import errors
 
@@ -25,6 +26,14 @@ SCOPES = ['https://mail.google.com/',
 
 class Mail:
     data = []
+
+    def pickle_it(self, file, obj):
+        with open(file, 'wb') as f:
+            pickle.dump(obj, f)
+
+    def unpickle_it(self,file):
+        with open(file,'rb') as f:
+            return pickle.load(f)
 
     def snippet(self, service, response):
         messages = []
@@ -42,18 +51,17 @@ class Mail:
                     message['raw'].encode('ASCII'))
                 msg_str = str(msg_str)
                 try:
-                    idx = str.index(msg_str,'Return-Path:')
-                    t = msg_str[idx:idx+250]
-                    idx2 = str.index(t,'\\r\\n')
+                    idx = str.index(msg_str, 'Return-Path:')
+                    t = msg_str[idx:idx + 250]
+                    idx2 = str.index(t, '\\r\\n')
                     reply = t[:idx2]
 
                 except ValueError:
                     reply = 'not found'
-                self.data.append( [msg_id,reply, message['snippet'],
-                        msg_str[0:1500], message['raw']])
+                self.data.append([msg_id, reply, message['snippet'],
+                                  msg_str[0:1500], message['raw']])
                 service.users().messages().delete(userId='me',
                                                   id=msg_id).execute()
-
 
     def main(self):
         """Shows basic usage of the Gmail API.
@@ -84,12 +92,19 @@ class Mail:
         service = build('gmail', 'v1', credentials=creds)
 
         response = service.users().messages().list(userId='me',
-                                                   labelIds='SPAM').execute()
+                                                   labelIds='INBOX').execute()
+
 
         self.snippet(service, response)
 
         response = service.users().messages().list(userId='me',
-                                                   labelIds='INBOX').execute()
+                                                   labelIds='SPAM').execute()
+
+        self.snippet(service, response)
+
+
+        response = service.users().messages().list(userId='me',
+                                                   labelIds='TRASH').execute()
 
         self.snippet(service, response)
 
@@ -104,7 +119,6 @@ class Mail:
             print('Labels:')
             for label in labels:
                 print(label['name'], label['id'])
-
 
         # with open("./junk.txt") as fp:
         #     message = self.create_message('mc@cwxstat.com',
