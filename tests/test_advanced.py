@@ -22,6 +22,6 @@ class AdvancedTestSuite(TestCase):
         q = BigQ()
         m.main()
         for i in m.data:
-            q.insert(i[0],i[1],i[2])
+            q.insert(i[0],i[1],i[2],i[4])
 
         # self.assertEqual("we stuff", j.stuff())

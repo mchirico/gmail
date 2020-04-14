@@ -20,14 +20,14 @@ class BigQ:
             # Row values can be accessed by field name or index.
             return row["now"]
 
-    def insert(self, id, ret, msg):
+    def insert(self, id, ret, msg, raw):
         id = self.clean(id)
         msg = self.clean(msg)
 
         query = """
-          insert into `septapig.mail.mc` (id,returnpath,msg,timeStamp) 
-          values ('%s','%s','%s','%s')
-          """ % (id, ret, msg,self.getTime())
+          insert into `septapig.mail.mc` (id,returnpath,msg,timeStamp, rawstr) 
+          values ('%s','%s','%s','%s','%s')
+          """ % (id, ret, msg,self.getTime(),raw)
 
         query_job = self.client.query(query)  # Make an API request.
         print("result:", query_job)
