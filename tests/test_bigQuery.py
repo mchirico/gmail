@@ -12,5 +12,6 @@ class AdvancedTestSuite(TestCase):
 
     def test_BigQ(self):
         b = BigQ()
+        print(b.getTime())
         #b.mdo('mike','b','s')
         # self.assertEqual("we stuff", j.stuff())

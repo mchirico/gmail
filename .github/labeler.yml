@@ -6,4 +6,7 @@ test:
 github:
   - .github/**/*
 
+util:
+  - gmail/util/**/*
+
 
