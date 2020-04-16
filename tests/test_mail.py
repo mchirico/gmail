@@ -7,11 +7,33 @@ from gmail.bigQuery.bigquery import BigQ
 from unittest import TestCase
 
 
-class AdvancedTestSuite(TestCase):
-    """Advanced test cases."""
+class MailTestSuite(TestCase):
 
-    def test_thoughts(self):
-        self.assertIsNone(gmail.hmm())
+    @classmethod
+    def setUpClass(cls) -> None:
+        m = Mail()
+        service = m.getService()
+        message = m.create_message('mc@cwxstat.com',
+                                   'mc@cwxstat.com',
+                                   'Test Msg -',
+                                   'Test msg delete*')
+        m.send_message(service,'me',message)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        q = BigQ()
+        q.deleteMsg('%Test msg delete%')
+
+    """ Our end-to-end test """
+
+    def test_MessageGotIn(self):
+        b = BigQ()
+        result = b.select("""
+        select count(*) as c from `septapig.mail.mc`
+        where msg like 'Test msg delete%'
+        """)
+        for row in result:
+            self.assertGreater(row['c'], 0)
 
     def test_pickle(self):
         m = Mail()
@@ -39,9 +61,9 @@ class AdvancedTestSuite(TestCase):
     def test_Mail(self):
         m = Mail()
         q = BigQ()
-        m.main()
+        m.populateSnippet()
         for i in m.data:
-            q.insert(i[0], i[1], i[2], i[4])
+            q.insert(i[0], i[1], i[2], i[4], i[5])
 
         # self.assertEqual("we stuff", j.stuff())
 
@@ -52,3 +74,4 @@ class AdvancedTestSuite(TestCase):
     def test_GetService(self):
         m = Mail()
         service = m.getService()
+        # service._http.http.close()
