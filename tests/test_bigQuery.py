@@ -15,3 +15,7 @@ class AdvancedTestSuite(TestCase):
         print(b.getTime())
         #b.mdo('mike','b','s')
         # self.assertEqual("we stuff", j.stuff())
+
+    def test_DeleteBounce(self):
+        b = BigQ()
+        print(b.deleteBounce())

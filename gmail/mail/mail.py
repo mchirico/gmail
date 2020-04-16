@@ -1,6 +1,8 @@
 from __future__ import print_function
 import pickle
 import os.path
+import warnings
+
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -23,6 +25,8 @@ SCOPES = ['https://mail.google.com/',
           'https://www.googleapis.com/auth/gmail.send',
           'https://www.googleapis.com/auth/gmail.settings.sharing']
 
+TOPIC = 'projects/quickstart-1586788855488/topics/gmail-topic'
+
 
 class Mail:
     data = []
@@ -31,8 +35,8 @@ class Mail:
         with open(file, 'wb') as f:
             pickle.dump(obj, f)
 
-    def unpickle_it(self,file):
-        with open(file,'rb') as f:
+    def unpickle_it(self, file):
+        with open(file, 'rb') as f:
             return pickle.load(f)
 
     def snippet(self, service, response):
@@ -63,10 +67,16 @@ class Mail:
                 service.users().messages().delete(userId='me',
                                                   id=msg_id).execute()
 
-    def main(self):
-        """Shows basic usage of the Gmail API.
-        Lists the user's Gmail labels.
-        """
+    def watch(self, service):
+        request = {
+            'labelIds': ['INBOX'],
+            'topicName': TOPIC
+        }
+        service.users().watch(userId='me', body=request).execute()
+
+    def getService(self):
+        # FIXME: socket not closed warning -- ignore for now
+        warnings.simplefilter("ignore")
         request = Request()
         creds = None
         # The file token.pickle stores the user's access and refresh tokens,
@@ -88,27 +98,14 @@ class Mail:
             # Save the credentials for the next run
             with open('credentials/token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
+        return build('gmail', 'v1', credentials=creds)
 
-        service = build('gmail', 'v1', credentials=creds)
+    # TODO: Figure out how to close
+    def close(self):
+        pass
 
-        response = service.users().messages().list(userId='me',
-                                                   labelIds='INBOX').execute()
+    def getListOfLabels(self, service):
 
-
-        self.snippet(service, response)
-
-        response = service.users().messages().list(userId='me',
-                                                   labelIds='SPAM').execute()
-
-        self.snippet(service, response)
-
-
-        response = service.users().messages().list(userId='me',
-                                                   labelIds='TRASH').execute()
-
-        self.snippet(service, response)
-
-        # Call the Gmail API
         results = service.users().labels().list(userId='me').execute()
 
         labels = results.get('labels', [])
@@ -119,6 +116,30 @@ class Mail:
             print('Labels:')
             for label in labels:
                 print(label['name'], label['id'])
+
+        return labels
+
+    def main(self):
+
+        service = self.getService()
+        self.watch(service)
+
+        response = service.users().messages().list(userId='me',
+                                                   labelIds='INBOX').execute()
+
+        self.snippet(service, response)
+
+        response = service.users().messages().list(userId='me',
+                                                   labelIds='SPAM').execute()
+
+        self.snippet(service, response)
+
+        response = service.users().messages().list(userId='me',
+                                                   labelIds='TRASH').execute()
+
+        self.snippet(service, response)
+
+        return self.getListOfLabels(service)
 
         # with open("./junk.txt") as fp:
         #     message = self.create_message('mc@cwxstat.com',
@@ -167,11 +188,6 @@ class Mail:
             return message
         except errors.HttpError as error:
             print('An error occurred: %s' % error)
-
-
-class Junk:
-    def stuff(self):
-        return "we stuff"
 
 
 if __name__ == "__main__":

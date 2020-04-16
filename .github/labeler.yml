@@ -7,6 +7,6 @@ github:
   - .github/**/*
 
 util:
-  - gmail/util/**/*
+  - gmail/mail/**/*
 
 

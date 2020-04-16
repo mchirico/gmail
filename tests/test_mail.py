@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .context import gmail
-from gmail.util.mail import Junk, Mail
+from gmail.mail.mail import Mail
 from gmail.bigQuery.bigquery import BigQ
 
 from unittest import TestCase
@@ -12,10 +12,6 @@ class AdvancedTestSuite(TestCase):
 
     def test_thoughts(self):
         self.assertIsNone(gmail.hmm())
-
-    def test_junk(self):
-        j = Junk()
-        self.assertEqual("we stuff", j.stuff())
 
     def test_pickle(self):
         m = Mail()
@@ -30,6 +26,16 @@ class AdvancedTestSuite(TestCase):
         print(r)
         self.assertEqual(r['id'], '1717a15dc100f5bd')
 
+    def test_CreateEmail(self):
+        m = Mail()
+        service = m.getService()
+        message = m.create_message('mc@cwxstat.com',
+                                   'mc@cwxstat.com',
+                                   'Test Msg -',
+                                   'Test msg delete*')
+        id = m.send_message(service, 'me', message)
+        self.assertGreater(len(id['id']), 10, 'No id returned')
+
     def test_Mail(self):
         m = Mail()
         q = BigQ()
@@ -38,3 +44,11 @@ class AdvancedTestSuite(TestCase):
             q.insert(i[0], i[1], i[2], i[4])
 
         # self.assertEqual("we stuff", j.stuff())
+
+    def test_Delete_msg(self):
+        q = BigQ()
+        q.deleteMsg('%Test msg delete%')
+
+    def test_GetService(self):
+        m = Mail()
+        service = m.getService()

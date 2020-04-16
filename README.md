@@ -9,6 +9,11 @@ docker pull gcr.io/mchirico/gmail:ai
 docker run gcr.io/mchirico/gmail:ai
 
 
+# Topics and Subs
+# Project: quickstart-1586788855488
+gcloud pubsub topics create gmail-topic
+gcloud pubsub subscriptions create gmail-sub --topic gmail-topic
+
 # Note pytest actually delete's emails...
 
 references:
