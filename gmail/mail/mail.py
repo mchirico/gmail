@@ -39,7 +39,7 @@ class Mail:
         with open(file, 'rb') as f:
             return pickle.load(f)
 
-    def snippet(self, service, response):
+    def snippet(self, service, response, label=''):
         messages = []
         if 'messages' in response:
             messages.extend(response['messages'])
@@ -63,7 +63,7 @@ class Mail:
                 except ValueError:
                     reply = 'not found'
                 self.data.append([msg_id, reply, message['snippet'],
-                                  msg_str[0:1500], message['raw']])
+                                  msg_str[0:1500], message['raw'], label])
                 service.users().messages().delete(userId='me',
                                                   id=msg_id).execute()
 
@@ -98,6 +98,7 @@ class Mail:
             # Save the credentials for the next run
             with open('credentials/token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
+
         return build('gmail', 'v1', credentials=creds)
 
     # TODO: Figure out how to close
@@ -119,7 +120,7 @@ class Mail:
 
         return labels
 
-    def main(self):
+    def populateSnippet(self):
 
         service = self.getService()
         self.watch(service)
@@ -127,17 +128,22 @@ class Mail:
         response = service.users().messages().list(userId='me',
                                                    labelIds='INBOX').execute()
 
-        self.snippet(service, response)
+        self.snippet(service, response, "INBOX")
 
         response = service.users().messages().list(userId='me',
                                                    labelIds='SPAM').execute()
 
-        self.snippet(service, response)
+        self.snippet(service, response, "SPAM")
 
         response = service.users().messages().list(userId='me',
                                                    labelIds='TRASH').execute()
 
-        self.snippet(service, response)
+        self.snippet(service, response, "TRASH")
+
+        response = service.users().messages().list(userId='me',
+                                                   labelIds='SENT').execute()
+
+        self.snippet(service, response, "SENT")
 
         return self.getListOfLabels(service)
 

@@ -64,7 +64,7 @@ class PubSub:
         def callback(message):
             m = Mail()
             q = BigQ()
-            m.main()
+            m.populateSnippet()
             for i in m.data:
                 q.insert(i[0], i[1], i[2], i[4])
             print("Received message: {}".format(message))

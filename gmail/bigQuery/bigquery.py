@@ -21,15 +21,14 @@ class BigQ:
             # Row values can be accessed by field name or index.
             return row["now"]
 
-    def deleteMsg(self,msg):
+    def deleteMsg(self, msg):
         query = "delete  FROM `septapig.mail.mc` " \
                 "where msg like '%s';" % msg
         query_job = self.client.query(query)
-        for row in query_job:
-            # Row values can be accessed by field name or index.
-            return row["now"]
-
-
+        # return query_job.result()
+        # FIXME: Can we call something else to run this?
+        [x for x in query_job]
+        return query_job
 
     def getTime(self):
         query = "SELECT CURRENT_DATETIME('America/New_York') as now;"
@@ -38,11 +37,18 @@ class BigQ:
             # Row values can be accessed by field name or index.
             return row["now"]
 
-    def insert(self, id, ret, msg, raw):
-        query = """
-          insert into `septapig.mail.mc` (id,returnpath,msg,timeStamp, rawstr) 
-          values ('%s','%s','%s','%s','%s')
-          """ % (id, ret, msg, self.getTime(), raw)
+    def select(self, query):
+        query_job = self.client.query(query)
+        return query_job
 
-        query_job = self.client.query(query)  # Make an API request.
+    def insert(self, id, ret, msg, raw, label=''):
+        query = """
+          insert into `septapig.mail.mc` (id,returnpath,msg,timeStamp, rawstr,
+          label) 
+          values ('%s','%s','%s','%s','%s','%s')
+          """ % (id, ret, msg, self.getTime(), raw, label)
+
+        query_job = self.client.query(query)
+        [x for x in query_job]  # Make an API request.
         print("result:", query_job)
+        return query_job
