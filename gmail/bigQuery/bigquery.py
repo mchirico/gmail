@@ -2,6 +2,11 @@ from google.cloud import bigquery
 import os
 import re
 
+import requests
+import pandas as pd
+import numpy as np
+from datetime import datetime
+
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials/proj.json"
 
 
@@ -12,6 +17,13 @@ class BigQ:
 
     def clean(self, s):
         return re.sub(r'\W+', ' ', s)
+
+    def d(self, query="""
+    SELECT a.* FROM `septapig.mail.mc` a
+    left outer join `septapig.mail.parsed` b
+    on a.id = b.id
+    where b.id is null LIMIT 1000"""):
+        return self.client.query(query).to_dataframe()
 
     def deleteBounce(self):
         query = "delete  FROM `septapig.mail.mc` " \

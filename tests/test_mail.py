@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import pytest
 
 from .context import gmail
 from gmail.mail.mail import Mail
@@ -54,6 +55,15 @@ class MailTestSuite(TestCase):
         message = m.create_message('mc@cwxstat.com',
                                    'mc@cwxstat.com',
                                    'Test Msg -',
+                                   'Test msg delete*')
+        id = m.send_message(service, 'me', message)
+        self.assertGreater(len(id['id']), 10, 'No id returned')
+
+    @pytest.mark.skip(reason="Sends out real message")
+    def test_Reply(self):
+        m = Mail()
+        service = m.getService()
+        message = m.create_static_reply(
                                    'Test msg delete*')
         id = m.send_message(service, 'me', message)
         self.assertGreater(len(id['id']), 10, 'No id returned')

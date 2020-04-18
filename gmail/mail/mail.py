@@ -173,6 +173,29 @@ class Mail:
             'raw':
                 base64.urlsafe_b64encode(message.as_bytes()).decode('ascii')}
 
+    def create_static_reply(self, message_text):
+        """Create a message for an email.
+
+        Args:
+          sender: Email address of the sender.
+          to: Email address of the receiver.
+          subject: The subject of the email message.
+          message_text: The text of the email message.
+
+        Returns:
+          An object containing a base64url encoded email object.
+        """
+        message = MIMEText(message_text)
+        message['to'] = 'mchirico@gmail.com'
+        thread = '<CAAuxAiicHMhSqr-KUeoXputgeRSO3TfKh6zvt=_voSgup0801g@mail' \
+                 '.gmail.com>'
+        message['In-Reply-To'] = thread
+        message['from'] = 'me'
+        message['subject'] = 'Re: test'
+        return {
+            'raw':
+                base64.urlsafe_b64encode(message.as_bytes()).decode('ascii')}
+
     def send_message(self, service, user_id, message):
         """Send an email message.
 
