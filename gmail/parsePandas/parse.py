@@ -66,6 +66,24 @@ class Parse:
         self.d['date'] = self.d['txt'].apply(lambda x: extractDate(x))
         return self
 
+    def received(self):
+        def extractReceived(b):
+            try:
+                tag = '\r\nReceived:'
+                b = b.decode()
+                idx = str.index(b, tag) + 10
+                # We want 2nd
+                b = b[idx::]
+                idx = str.index(b, tag)
+                b = b[idx + len(tag) + 1:idx + 500].strip()
+                idx2 = str.index(b, '\r\n')
+            except:
+                return 'none'
+            return b[0:idx2]
+
+        self.d['received'] = self.d['txt'].apply(lambda x: extractReceived(x))
+        return self
+
     def save(self):
         #  `septapig.mail.mc` LIMIT
         warnings.simplefilter("ignore")

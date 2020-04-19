@@ -29,7 +29,7 @@ class AdvancedTestSuite(TestCase):
 
         d = b.d()
         p = Parse(d)
-        p.raw().subject().date().save()
+        p.raw().subject().date().received().save()
         query = """
         insert into  `septapig.mail.parsed` 
 SELECT b.* FROM `septapig.mail.parsed` a
