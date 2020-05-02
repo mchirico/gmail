@@ -1,0 +1,89 @@
+name: Angular
+
+on:
+  push:
+    branches:
+      - master
+      - n
+      - m
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Setup gcloud CLI
+    - uses: mchirico/gcp-actions@v1
+      with:
+        version: 'latest'
+        service_account_key: ${{ secrets.OWNER }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+        gcloud components update --quiet
+
+
+
+    - name: Install ChromeDriver
+      run: |
+        CHROME_VERSION=$(google-chrome --version | cut -f 3 -d ' ' | cut -d '.' -f 1) \
+          && CHROMEDRIVER_RELEASE=$(curl --location --fail --retry 3 http://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}) \
+          && curl --silent --show-error --location --fail --retry 3 --output /tmp/chromedriver_linux64.zip "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_RELEASE/chromedriver_linux64.zip" \
+          && cd /tmp \
+          && unzip chromedriver_linux64.zip \
+          && rm -rf chromedriver_linux64.zip \
+          && sudo mv chromedriver /usr/local/bin/chromedriver \
+          && sudo chmod +x /usr/local/bin/chromedriver \
+          && chromedriver --version
+
+    # ng command for Angular
+    - name: ng command for Angular
+      run: |
+         npm install -g @angular/cli
+
+
+    # Credentials
+    - name: Get and Create Credentials
+      run: |
+       mkdir -p angular/src/environments
+       gsutil cp gs://nodesepta/strava/credentials/environment* angular/src/environments
+       ls -l angular/src/environments
+
+
+    # Angular install and test
+    - name: Angular install and test
+      run: |
+         cd angular
+         npm install
+         npm run test -- --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI
+         npm run coverage
+      env:
+        CI: true
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+
+    # BigQuery
+    - name: Working with BigQuery
+      run: |
+       txt="Cloud build... gmail angular"
+       bq query --nouse_legacy_sql 'CREATE TABLE IF NOT EXISTS  `septapig.github.log` (msg string, timeEnter timestamp);'
+       bq query --nouse_legacy_sql  --parameter=MSG:STRING:"${txt}"  'insert into `septapig.github.log` (msg,timeEnter) values (@MSG,CURRENT_TIMESTAMP())'
+
+
+
+

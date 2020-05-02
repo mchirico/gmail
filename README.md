@@ -1,4 +1,5 @@
 ![Cloud Build](https://github.com/mchirico/gmail/workflows/Cloud%20Build/badge.svg?branch=master)
+![Schedule Build](https://github.com/mchirico/gmail/workflows/Schedule%20Build/badge.svg)
 [![codecov](https://codecov.io/gh/mchirico/gmail/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/gmail)
 # Gmail
 
