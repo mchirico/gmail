@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "septapig": {
+      "hosting": {
+        "angular": [
+          "septapig"
+        ]
+      }
+    }
+  }
+}
