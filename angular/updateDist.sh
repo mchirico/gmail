@@ -1,2 +1,5 @@
 #!/bin/bash
-ng build --outputPath=../node/dist --prod  --outputHashing=all
+rm -rf ../templates
+mkdir -p ../templates
+ng build --outputPath=../templates --prod  --outputHashing=all
+

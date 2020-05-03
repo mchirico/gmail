@@ -3,7 +3,7 @@ import threading
 import atexit
 from gmail.bigQuery.bigquery import BigQ
 
-from flask import Flask
+from flask import Flask, make_response, render_template, send_from_directory
 
 from gmail.pubsub.pubsub import PubSub
 
@@ -19,11 +19,16 @@ yourThread = threading.Thread()
 
 def create_app():
     app = Flask(__name__)
+    angular_folder = os.path.join(app.root_path, 'templates')
+
+    @app.route('/<path:filename>')
+    def angular(filename):
+        return send_from_directory(angular_folder, filename)
 
     @app.route('/')
-    def hello_world():
-        b = BigQ()
-        return 'time: {}\ncount: {}\n'.format(b.getTime(),commonDataStruct)
+    def index():
+        resp = make_response(render_template('index.html'))
+        return resp
 
     def interrupt():
         global yourThread
@@ -36,7 +41,7 @@ def create_app():
             commonDataStruct += 1
             p = PubSub()
             p.send()
-            p.readMsgProcess(POOL_TIME-2)
+            p.readMsgProcess(POOL_TIME - 2)
         # Set the next thread to happen
         yourThread = threading.Timer(POOL_TIME, doStuff, ())
         yourThread.start()
@@ -49,7 +54,7 @@ def create_app():
         yourThread.start()
 
     # Initiate
-    doStuffStart()
+    # doStuffStart()
     # When you kill Flask (SIGTERM), clear the trigger for the next thread
     atexit.register(interrupt)
     return app
