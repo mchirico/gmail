@@ -1,0 +1,7 @@
+<div>Gmail</div>
+<ul>
+  <li class="text" *ngFor="let gmail of gmails | async">
+    {{gmail.date }}
+    <p> {{gmail.msg}}</p>
+  </li>
+</ul>

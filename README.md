@@ -6,8 +6,9 @@
 Project to read and filter gmail messages
 
 ```
-docker pull gcr.io/mchirico/gmail:ai
-docker run gcr.io/mchirico/gmail:ai
+# See Makefile
+docker pull gcr.io/septapig/gmail
+
 
 
 # Topics and Subs
