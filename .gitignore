@@ -91,6 +91,7 @@ ENV/
 
 credentials/*.json
 credentials/*.js
+credentials/*.pickle
 */credentials/*.json
 ./**/credentials/*.js
 **/*/pubsub.json

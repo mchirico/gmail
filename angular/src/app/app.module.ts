@@ -19,6 +19,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { SummaryComponent } from './firebase/gmail/summary/summary.component';
 
 
 
@@ -34,7 +35,8 @@ import { environment } from '../environments/environment';
     AreaChartComponent,
     StartChartComponent,
     DetailChartComponent,
-    HomeComponent
+    HomeComponent,
+    SummaryComponent
   ],
   imports: [
     BrowserModule,

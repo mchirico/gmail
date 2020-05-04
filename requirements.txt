@@ -10,6 +10,7 @@ codecov==2.0.22
 coverage==5.1
 docutils==0.16
 Flask==1.1.2
+firebase-admin
 google-api-core==1.16.0
 google-api-python-client==1.8.0
 google-auth==1.13.1
