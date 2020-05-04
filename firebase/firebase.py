@@ -16,6 +16,13 @@ db = firestore.client()
 
 class FBmail:
 
+    def delete(self,id):
+        db.collection(u'gmail').document(
+            'possible').collection(
+            'summary').document(str(id)).delete()
+
+
+
     def update(self, id, msg, date):
         now = datetime.datetime.now()
         timeStamp = now.strftime("%Y-%m-%dT%H:%M:%S.%s")
@@ -23,7 +30,6 @@ class FBmail:
         doc_ref = db.collection(u'gmail').document(
             'possible').collection(
             'summary').document(str(id))
-        doc_ref.delete()
         doc_ref.set({
             u'id': str(id),
             u'msg': str(msg),

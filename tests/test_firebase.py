@@ -19,11 +19,17 @@ class FirebaseTestSuite(TestCase):
         # b.mdo('mike','b','s')
         # self.assertEqual("we stuff", j.stuff())
 
+    def test_Delete(self):
+        fbmail = FBmail()
+        for i in range(0, 5):
+            fbmail.delete(i)
+
     def test_FBMail(self):
         b = BigQ()
         query = """
         
-        SELECT msg,EXTRACT(DATE FROM timestamp) AS date,a.d FROM `septapig.mail.parsed`, 
+        SELECT msg,EXTRACT(DATE FROM timestamp) AS date,a.d FROM 
+        `septapig.mail.parsed`, 
  (SELECT DATE_ADD(CURRENT_DATE(), INTERVAL -2 DAY) as d) a
 where subject like 'R% C%'
  and date >= cast(a.d as STRING)

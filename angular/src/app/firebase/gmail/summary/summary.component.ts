@@ -15,7 +15,7 @@ export interface Gmail {
 })
 export class SummaryComponent implements OnInit {
   gmails: Observable<any[]>;
-  item: Observable<Gmail>;
+
   private gmailCollection: AngularFirestoreCollection<Gmail>;
 
   constructor(private afs: AngularFirestore) {
