@@ -23,13 +23,13 @@ class FBmail:
 
 
 
-    def update(self, id, msg, date):
+    def update(self, count, id, msg, date):
         now = datetime.datetime.now()
         timeStamp = now.strftime("%Y-%m-%dT%H:%M:%S.%s")
         timeStamp_epoch = now.timestamp()
         doc_ref = db.collection(u'gmail').document(
             'possible').collection(
-            'summary').document(str(id))
+            'summary').document(str(count))
         doc_ref.set({
             u'id': str(id),
             u'msg': str(msg),

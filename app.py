@@ -1,6 +1,7 @@
 import os
 import threading
 import atexit
+import logging
 from gmail.bigQuery.bigquery import BigQ
 
 from flask import Flask, make_response, render_template, send_from_directory
@@ -27,6 +28,12 @@ def create_app():
 
     @app.route('/')
     def index():
+        resp = make_response(render_template('index.html'))
+        return resp
+
+    @app.errorhandler(404)
+    def not_found(error):
+        logging.error("page not found error: {}".format(error))
         resp = make_response(render_template('index.html'))
         return resp
 
