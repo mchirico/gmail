@@ -84,4 +84,5 @@ class MailTestSuite(TestCase):
     def test_GetService(self):
         m = Mail()
         service = m.getService()
-        # service._http.http.close()
+        # m.watch(service)
+
