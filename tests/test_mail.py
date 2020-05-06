@@ -55,7 +55,7 @@ class MailTestSuite(TestCase):
         message = m.create_message('mc@cwxstat.com',
                                    'mc@cwxstat.com',
                                    'Test Msg -',
-                                   'Test msg delete*')
+                                   'Hope you are doing well!')
         id = m.send_message(service, 'me', message)
         self.assertGreater(len(id['id']), 10, 'No id returned')
 
@@ -64,7 +64,7 @@ class MailTestSuite(TestCase):
         m = Mail()
         service = m.getService()
         message = m.create_static_reply(
-                                   'Test msg delete*')
+                                   'Hope you are doing well!')
         id = m.send_message(service, 'me', message)
         self.assertGreater(len(id['id']), 10, 'No id returned')
 
@@ -79,7 +79,8 @@ class MailTestSuite(TestCase):
 
     def test_Delete_msg(self):
         q = BigQ()
-        q.deleteMsg('%Test msg delete%')
+        q.deleteMsg('%Hope you are doing well%')
+        q.deleteMsg('%Test msg delete*%')
 
     def test_GetService(self):
         m = Mail()
