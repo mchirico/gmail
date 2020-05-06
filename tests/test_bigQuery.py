@@ -18,6 +18,9 @@ class AdvancedTestSuite(TestCase):
         # b.mdo('mike','b','s')
         # self.assertEqual("we stuff", j.stuff())
 
+    def test_filter(self):
+        b = BigQ()
+
     def test_DeleteBounce(self):
         b = BigQ()
         print(b.deleteBounce())
@@ -25,7 +28,7 @@ class AdvancedTestSuite(TestCase):
     # TODO: Refactor
     def test_d(self):
         b = BigQ()
-        #b.select('drop table IF EXISTS `septapig.mail.tmp0`')
+        # b.select('drop table IF EXISTS `septapig.mail.tmp0`')
 
         d = b.d()
         p = Parse(d)

@@ -1,4 +1,5 @@
 from google.cloud import bigquery
+from rejects.rejects import Rejects
 import os
 import re
 
@@ -14,6 +15,7 @@ class BigQ:
 
     def __init__(self):
         self.client = bigquery.Client()
+        self.rejects = Rejects()
 
     def clean(self, s):
         return re.sub(r'\W+', ' ', s)
@@ -53,7 +55,14 @@ class BigQ:
         query_job = self.client.query(query)
         return query_job
 
+    def filter(self,returnpah):
+        return  self.rejects.returnpath(returnpah)
+
+
+
     def insert(self, id, ret, msg, raw, label=''):
+        if self.filter(ret):
+            return
         query = """
           insert into `septapig.mail.mc` (id,returnpath,msg,timeStamp, rawstr,
           label) 

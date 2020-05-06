@@ -27,14 +27,14 @@ class MailTestSuite(TestCase):
 
     """ Our end-to-end test """
 
-    def test_MessageGotIn(self):
-        b = BigQ()
-        result = b.select("""
-        select count(*) as c from `septapig.mail.mc`
-        where msg like 'Test msg delete%'
-        """)
-        for row in result:
-            self.assertGreater(row['c'], 0)
+    # def test_MessageGotIn(self):
+    #     b = BigQ()
+    #     result = b.select("""
+    #     select count(*) as c from `septapig.mail.mc`
+    #     where msg like 'Test msg delete%'
+    #     """)
+    #     for row in result:
+    #         self.assertGreater(row['c'], 0)
 
     def test_pickle(self):
         m = Mail()
