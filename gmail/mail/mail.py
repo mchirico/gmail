@@ -120,6 +120,7 @@ class Mail:
 
         return labels
 
+
     def populateSnippet(self):
 
         service = self.getService()
