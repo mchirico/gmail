@@ -32,7 +32,7 @@ class FirebaseTestSuite(TestCase):
 (SELECT id,msg,EXTRACT(DATE FROM timestamp) AS date,a.d,timestamp FROM 
         `septapig.mail.parsed`, 
  (SELECT DATE_ADD(CURRENT_DATE(), INTERVAL -4 DAY) as d) a
-where subject like 'R% C%'
+where subject like 'R% C2C Contracts%'
  and date >= cast(a.d as STRING)
  order by date desc) as parsed left outer join `septapig.mail.reviewed` rev
  on parsed.id = rev.id
