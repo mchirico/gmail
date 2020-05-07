@@ -1,12 +1,7 @@
 from google.cloud import bigquery
-from rejects.rejects import Rejects
+from gmail.rejects.rejects import Rejects
 import os
 import re
-
-import requests
-import pandas as pd
-import numpy as np
-from datetime import datetime
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials/proj.json"
 

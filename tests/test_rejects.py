@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from rejects.rejects import Rejects
+from gmail.rejects.rejects import Rejects
 
 from unittest import TestCase
 

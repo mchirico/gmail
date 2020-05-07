@@ -125,25 +125,12 @@ class Mail:
         service = self.getService()
         self.watch(service)
 
-        response = service.users().messages().list(userId='me',
-                                                   labelIds='INBOX').execute()
+        labelIds = ['INBOX', 'SPAM', 'TRASH', 'SENT']
+        for label in labelIds:
+            response = service.users().messages().list(userId='me',
+                                                       labelIds=label).execute()
 
-        self.snippet(service, response, "INBOX")
-
-        response = service.users().messages().list(userId='me',
-                                                   labelIds='SPAM').execute()
-
-        self.snippet(service, response, "SPAM")
-
-        response = service.users().messages().list(userId='me',
-                                                   labelIds='TRASH').execute()
-
-        self.snippet(service, response, "TRASH")
-
-        response = service.users().messages().list(userId='me',
-                                                   labelIds='SENT').execute()
-
-        self.snippet(service, response, "SENT")
+            self.snippet(service, response, label)
 
         return self.getListOfLabels(service)
 
