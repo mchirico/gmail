@@ -31,6 +31,10 @@ TOPIC = 'projects/quickstart-1586788855488/topics/gmail-topic'
 class Mail:
     data = []
 
+    def __init__(self):
+        self.service = self.getService()
+        self.watch(self.service)
+
     def pickle_it(self, file, obj):
         with open(file, 'wb') as f:
             pickle.dump(obj, f)
@@ -39,13 +43,13 @@ class Mail:
         with open(file, 'rb') as f:
             return pickle.load(f)
 
-    def snippet(self, service, response, label=''):
+    def snippet(self, response, label=''):
         messages = []
         if 'messages' in response:
             messages.extend(response['messages'])
             for msg in messages:
                 msg_id = msg['id']
-                message = service.users().messages().get(
+                message = self.service.users().messages().get(
                     userId='me',
                     id=msg_id,
                     format='raw').execute()
@@ -64,8 +68,8 @@ class Mail:
                     reply = 'not found'
                 self.data.append([msg_id, reply, message['snippet'],
                                   msg_str[0:1500], message['raw'], label])
-                service.users().messages().delete(userId='me',
-                                                  id=msg_id).execute()
+                self.service.users().messages().delete(userId='me',
+                                                       id=msg_id).execute()
 
     def watch(self, service):
         request = {
@@ -105,9 +109,9 @@ class Mail:
     def close(self):
         pass
 
-    def getListOfLabels(self, service):
+    def getListOfLabels(self):
 
-        results = service.users().labels().list(userId='me').execute()
+        results = self.service.users().labels().list(userId='me').execute()
 
         labels = results.get('labels', [])
 
@@ -120,20 +124,16 @@ class Mail:
 
         return labels
 
-
     def populateSnippet(self):
-
-        service = self.getService()
-        self.watch(service)
 
         labelIds = ['INBOX', 'SPAM', 'TRASH', 'SENT']
         for label in labelIds:
-            response = service.users().messages().list(userId='me',
-                                                       labelIds=label).execute()
+            response = self.service.users().messages().list(userId='me',
+                                                            labelIds=label).execute()
 
-            self.snippet(service, response, label)
+            self.snippet(response, label)
 
-        return self.getListOfLabels(service)
+        return self.getListOfLabels()
 
         # with open("./junk.txt") as fp:
         #     message = self.create_message('mc@cwxstat.com',
