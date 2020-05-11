@@ -5,6 +5,8 @@
 
 Project to read and filter gmail messages
 
+<img src='https://storage.googleapis.com/montco-stats/gmail/ActivityDiagramGmail.svg' />
+
 ```
 # See Makefile
 docker pull gcr.io/septapig/gmail
