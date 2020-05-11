@@ -9,6 +9,7 @@ import {SearchService} from '../../service/search.service';
 })
 export class NavbarComponent implements OnInit {
   @ViewChild('f') searchForm: NgForm;
+  navbarOpen = false
 
   constructor(private searchService: SearchService) {
   }
@@ -20,5 +21,9 @@ export class NavbarComponent implements OnInit {
     console.log('Native val: ', this.searchForm.value.search0)
     this.searchService.putTerm(this.searchForm.value.search0);
     console.log('results: ', this.searchService.getTerms());
+  }
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
   }
 }

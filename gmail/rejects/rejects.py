@@ -8,7 +8,8 @@ class Rejects:
               'apolisrises.com', 'sparkpost.com', 'beyond.com', 'patel',
               'solutions.com', 'smtp.com', 'kumar', 'salesforce.com',
               'providers.com', 'spectrum.com', 'kodus.com', 'sparkpost.com',
-              'indeed.com', 'bounce', 'job.com', 'assessment']
+              'indeed.com', 'bounce', 'job.com', 'assessment','compuvis.com',
+              'municipalnotices.com','yahoo.com']
 
     def match(self, returnpath):
         m = re.search(r"(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", returnpath)
