@@ -1,7 +1,11 @@
 <div>Gmail</div>
 <ul>
   <li class="text" *ngFor="let gmail of gmails | async">
+    <div>{{gmail.subject}}</div>
     {{gmail.date }}
-    <p> {{gmail.msg}}</p>
+    <div>{{gmail.returnpath}}</div>
+    <div> {{gmail.msg}}</div>
+    <div>{{gmail.timeStampS}}</div>
+    <p></p>
   </li>
 </ul>

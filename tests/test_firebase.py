@@ -28,24 +28,19 @@ class FirebaseTestSuite(TestCase):
         b = BigQ()
         query = """
         
-        select parsed.* from   
-(SELECT id,msg,EXTRACT(DATE FROM timestamp) AS date,a.d,timestamp FROM 
-        `septapig.mail.parsed`, 
- (SELECT DATE_ADD(CURRENT_DATE(), INTERVAL -4 DAY) as d) a
-where subject like 'R% C2C Contracts%'
- and date >= cast(a.d as STRING)
- order by date desc) as parsed left outer join `septapig.mail.reviewed` rev
- on parsed.id = rev.id
- where rev.id is null
- order by timestamp desc
+        SELECT subject,returnpath,msg,timeStamp FROM `septapig.mail.response` 
+        order by timeStamp desc
+        LIMIT 1000
+        
  
                 """
         result = b.select(query)
         fbmail = FBmail()
         count = 0
         for row in result:
-            fbmail.update(count, row['id'], row['msg'], row['date'])
-            print(row['date'])
+            fbmail.update(count, row['subject'], row['returnpath'],
+                          row['msg'], row['timeStamp'])
+            print(row['subject'])
             count += 1
 
     # TODO: Refactor

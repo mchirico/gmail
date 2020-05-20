@@ -23,18 +23,22 @@ class FBmail:
             'possible').collection(
             'summary').document(str(id)).delete()
 
-    def update(self, count, id, msg, date):
+    def update(self, count, subject, returnpath, msg,
+               timeStamp):
         now = datetime.datetime.now()
-        timeStamp = now.strftime("%Y-%m-%dT%H:%M:%S.%s")
+        rectimeStamp = now.strftime("%Y-%m-%dT%H:%M:%S.%s")
         timeStamp_epoch = now.timestamp()
         doc_ref = db.collection(u'gmail').document(
             'possible').collection(
             'summary').document(str(count))
         doc_ref.set({
-            u'id': str(id),
+            u'id': str(count),
+            u'subject': str(subject),
+            u'returnpath': str(returnpath),
             u'msg': str(msg),
-            u'date': str(date),
+            u'timeStampS': timeStamp.strftime("%Y-%m-%d %H:%M:%S"),
             u'timeStamp': timeStamp,
+            u'rectimeStamp': rectimeStamp,
             u'timeStamp_epoch': timeStamp_epoch
         })
 
@@ -44,13 +48,14 @@ class FBmail:
             for doc in doc_snapshot:
                 print(u'Received document snapshot: {}'.format(doc.id))
                 mylog(u'test1 document snapshot: {}'.format(doc.to_dict()))
-                # mylog(u'\n     changes: {}\n read_time: {}'.format(dir(changes),
+                # mylog(u'\n     changes: {}\n read_time: {}'.format(dir(
+                # changes),
                 #                                                  read_time))
                 callback_done.set()
 
         doc_ref = db.collection(u'event').document(u'chirico')
 
-                # Watch the document
+        # Watch the document
         doc_watch = doc_ref.on_snapshot(on_snapshot2)
         return doc_watch
-                # doc_watch.unsubscribe()
+        # doc_watch.unsubscribe()
