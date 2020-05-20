@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 
 export interface Gmail {
   msg: string;
+  timeStamp: Date;
   date?: string;
 }
 
@@ -15,13 +16,14 @@ export interface Gmail {
 })
 export class SummaryComponent implements OnInit {
   gmails: Observable<any[]>;
+  now: Date;
 
   private gmailCollection: AngularFirestoreCollection<Gmail>;
 
   constructor(private afs: AngularFirestore) {
     this.gmailCollection = afs.collection<Gmail>('gmail/possible/summary');
     this.gmails = this.gmailCollection.valueChanges();
-
+    this.now =  new Date();
   }
 
   ngOnInit(): void {
