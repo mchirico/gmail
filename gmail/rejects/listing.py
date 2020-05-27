@@ -26,4 +26,6 @@ rejects = {'@objectwin.com': True, '@saibber108.com': True,
            '@modis.com': True, '@asciigroup.com': True, '@vitsus.com': True,
            '@4vovn0jqd0ksgbio.9sxq1.5-7uiceaq.na89.bnc.salesforce.com': True,
            '@jconnectinc.com': True, '@sgiccloudtech.com': True,
-           '@tekfortune.com': True, '@hightechcommerce.com': True}
+           '@tekfortune.com': True, '@hightechcommerce.com': True,
+           '@judge.com': True,'@aitacs.com': True,'@adcc.com': True,
+           '@vsoftconsulting.com': True}
