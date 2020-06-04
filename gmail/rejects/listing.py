@@ -29,4 +29,5 @@ rejects = {'@objectwin.com': True, '@saibber108.com': True,
            '@tekfortune.com': True, '@hightechcommerce.com': True,
            '@judge.com': True,'@aitacs.com': True,'@adcc.com': True,
            '@vsoftconsulting.com': True,'@email.nexxt.com': True,
-           '@delivery.email.nexxt.com': True, '@email.nexxt.com': True}
+           '@delivery.email.nexxt.com': True, '@email.nexxt.com': True,
+           '@jobspringpartners.com': True}
