@@ -68,3 +68,11 @@ class BigQ:
         [x for x in query_job]  # Make an API request.
         print("result:", query_job)
         return query_job
+
+    def all_mesg_seen(self):
+        query = """
+        INSERT INTO `septapig.mail.reject_response`
+            SELECT a.returnpath,a.timeStamp FROM `septapig.mail.response` a left outer join   `septapig.mail.reject_response` b
+            on a.returnpath=b.returnpath and a.timeStamp = b.timeStamp
+            where b.returnpath is null
+        """
