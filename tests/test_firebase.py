@@ -28,10 +28,13 @@ class FirebaseTestSuite(TestCase):
         b = BigQ()
         query = """
         
-        SELECT subject,returnpath,msg,timeStamp FROM `septapig.mail.response` 
+        SELECT a.* FROM 
+            `septapig.mail.response` a left outer join   
+            `septapig.mail.reject_response` b
+        on a.returnpath=b.returnpath and a.timeStamp = b.timeStamp
+        where b.returnpath is null
         order by timeStamp desc
-        LIMIT 1000
-        
+        LIMIT 20
  
                 """
         result = b.select(query)
