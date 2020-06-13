@@ -1,0 +1,15 @@
+#!/bin/bash
+bq query --nouse_legacy_sql \
+'
+INSERT INTO `septapig.mail.reject_response`
+            SELECT a.returnpath,a.timeStamp FROM `septapig.mail.response` a left outer join   `septapig.mail.reject_response` b
+            on a.returnpath=b.returnpath and a.timeStamp = b.timeStamp
+            where b.returnpath is null;
+
+'
+
+bq query --nouse_legacy_sql \
+'
+select * from `septapig.mail.reject_response`;
+
+'
