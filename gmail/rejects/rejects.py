@@ -10,7 +10,9 @@ class Rejects:
               'providers.com', 'spectrum.com', 'kodus.com', 'sparkpost.com',
               'indeed.com', 'bounce', 'job.com', 'assessment','compuvis.com',
               'municipalnotices.com','yahoo.com','postmaster','alert',
-              'e-notify']
+              'e-notify','indeedemail.com','nlbservices.com',
+              'techaffinity.com','eblank','experthiring.com',
+              'kellyit.com']
 
     def match(self, returnpath):
         m = re.search(r"(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", returnpath)
