@@ -12,7 +12,8 @@ class Rejects:
               'municipalnotices.com','yahoo.com','postmaster','alert',
               'e-notify','indeedemail.com','nlbservices.com',
               'techaffinity.com','eblank','experthiring.com',
-              'kellyit.com']
+              'kellyit.com','v2soft.com','damcosoft.com','kmail.com','smtp',
+              'email','cwxstat.com@']
 
     def match(self, returnpath):
         m = re.search(r"(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", returnpath)
