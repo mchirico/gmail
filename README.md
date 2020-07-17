@@ -27,3 +27,13 @@ https://cloud.google.com/bigquery/docs/reference/libraries#client-libraries-inst
 ```
 
 
+You'll need to run the quickstart, afer delete *token.pickle* in credentials
+
+[quickstart](https://gist.github.com/mchirico/3916cb132c27e99262baf6f87e9ffcae)
+
+Note: Quickstart is one of *my* projects.
+
+Note... quickstart is my project.
+![image](https://user-images.githubusercontent.com/755710/87828738-91a78a00-c84b-11ea-8e19-5bb736302d92.png)
+
+
