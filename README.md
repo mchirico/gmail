@@ -1,6 +1,7 @@
 ![Cloud Build](https://github.com/mchirico/gmail/workflows/Cloud%20Build/badge.svg?branch=master)
 ![Schedule Build](https://github.com/mchirico/gmail/workflows/Schedule%20Build/badge.svg)
 [![codecov](https://codecov.io/gh/mchirico/gmail/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/gmail)
+[![codebeat badge](https://codebeat.co/badges/6a7f697e-058f-468d-9475-6551f5d9f0c6)](https://codebeat.co/projects/github-com-mchirico-gmail-master)
 # Gmail
 
 Project to read and filter gmail messages
