@@ -79,9 +79,6 @@ class Mail:
         service.users().watch(userId='me', body=request).execute()
 
     def getService(self):
-        # FIXME: socket not closed warning -- ignore for now
-        warnings.simplefilter("ignore")
-        request = Request()
         creds = None
         # The file token.pickle stores the user's access and refresh tokens,
         # and is
@@ -94,7 +91,7 @@ class Mail:
         # If there are no (valid) credentials available, let the user log in.
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
-                creds.refresh(request)
+                creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'credentials/credentials.json', SCOPES)
