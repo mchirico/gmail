@@ -13,6 +13,10 @@ class RejectsTestSuite(TestCase):
         r = Rejects()
         test = 'Return-Path: <Akshit@ustechsolutionsinc.com>'
         self.assertTrue(r.returnpath(test))
+        test2 = 'Return-Path: <Bob8@badnumber.com>'
+        self.assertTrue(r.returnpath(test2))
+        test3 = 'Return-Path: <Bob@badnumber.com>'
+        self.assertFalse(r.returnpath(test3))
 
     def test_match(self):
         r = Rejects()
