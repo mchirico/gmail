@@ -52,6 +52,7 @@ jobs:
        gsutil cp gs://nodesepta/gmail/credentials/token.pickle ./credentials/token.pickle
        gsutil cp gs://nodesepta/gmail/credentials/credentials.json ./credentials/credentials.json
        gsutil cp gs://nodesepta/gmail/credentials/firebase.json ./credentials/firebase.json
+       gsutil cp gs://nodesepta/gmail/credentials/tokenDeadMail.pickle ./credentials/tokenDeadMail.pickle
        ls -l
        ls -l credentials
 

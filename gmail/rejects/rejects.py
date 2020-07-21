@@ -8,13 +8,15 @@ class Rejects:
               'apolisrises.com', 'sparkpost.com', 'beyond.com', 'patel',
               'solutions.com', 'smtp.com', 'kumar', 'salesforce.com',
               'providers.com', 'spectrum.com', 'kodus.com', 'sparkpost.com',
-              'indeed.com', 'bounce', 'job.com', 'assessment','compuvis.com',
-              'municipalnotices.com','yahoo.com','postmaster','alert',
-              'e-notify','indeedemail.com','nlbservices.com',
-              'techaffinity.com','eblank','experthiring.com',
-              'kellyit.com','v2soft.com','damcosoft.com','kmail.com','smtp',
-              'email','cwxstat.com@','infosmartsys.com','7','6','4','9',
-              '0','8']
+              'indeed.com', 'bounce', 'job.com', 'assessment', 'compuvis.com',
+              'municipalnotices.com', 'yahoo.com', 'postmaster', 'alert',
+              'e-notify', 'indeedemail.com', 'nlbservices.com',
+              'techaffinity.com', 'eblank', 'experthiring.com',
+              'kellyit.com', 'v2soft.com', 'damcosoft.com', 'kmail.com', 'smtp',
+              'email', 'cwxstat.com@', 'infosmartsys.com', '8', '7', '6', '5',
+              '4',
+              '3',
+              '9', '0','cynetsystems.com']
 
     def match(self, returnpath):
         m = re.search(r"(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", returnpath)
