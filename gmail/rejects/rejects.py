@@ -13,7 +13,7 @@ class Rejects:
               'e-notify','indeedemail.com','nlbservices.com',
               'techaffinity.com','eblank','experthiring.com',
               'kellyit.com','v2soft.com','damcosoft.com','kmail.com','smtp',
-              'email','cwxstat.com@']
+              'email','cwxstat.com@','infosmartsys.com']
 
     def match(self, returnpath):
         m = re.search(r"(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", returnpath)
