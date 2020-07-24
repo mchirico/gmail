@@ -30,4 +30,4 @@ rejects = {'@objectwin.com': True, '@saibber108.com': True,
            '@judge.com': True,'@aitacs.com': True,'@adcc.com': True,
            '@vsoftconsulting.com': True,'@email.nexxt.com': True,
            '@delivery.email.nexxt.com': True, '@email.nexxt.com': True,
-           '@jobspringpartners.com': True}
+           '@jobspringpartners.com': True,'@mondo.com': True}

@@ -18,7 +18,7 @@ class MailTestSuite(TestCase):
                                    'mc@cwxstat.com',
                                    'Test Msg -',
                                    'Test msg delete*')
-        m.send_message(service,'me',message)
+        m.send_message(service, 'me', message)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -64,7 +64,7 @@ class MailTestSuite(TestCase):
         m = Mail()
         service = m.getService()
         message = m.create_static_reply(
-                                   'Hope you are doing well!')
+            'Hope you are doing well!')
         id = m.send_message(service, 'me', message)
         self.assertGreater(len(id['id']), 10, 'No id returned')
 
@@ -96,5 +96,4 @@ class MailTestSuite(TestCase):
         m = Mail('dead')
         service = m.getServiceDeadMail()
         r = m.buildDeadLabels('TEST')
-        self.assertIn('TRASH',r)
-
+        self.assertIn('TRASH', r)
