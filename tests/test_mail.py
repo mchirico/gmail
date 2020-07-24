@@ -87,3 +87,8 @@ class MailTestSuite(TestCase):
         service = m.getService()
         # m.watch(service)
 
+    def test_GetServiceDeadMail(self):
+        m = Mail('dead')
+        service = m.getServiceDeadMail()
+        m.populateSnippetDeadMail()
+

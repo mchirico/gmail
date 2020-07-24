@@ -31,9 +31,13 @@ TOPIC = 'projects/quickstart-1586788855488/topics/gmail-topic'
 class Mail:
     data = []
 
-    def __init__(self):
-        self.service = self.getService()
-        self.watch(self.service)
+    def __init__(self, service='default'):
+        if service != 'default':
+            self.service = self.getServiceDeadMail()
+            self.watch(self.service)
+        else:
+            self.service = self.getService()
+            self.watch(self.service)
 
     def pickle_it(self, file, obj):
         with open(file, 'wb') as f:
@@ -71,6 +75,26 @@ class Mail:
                 self.service.users().messages().delete(userId='me',
                                                        id=msg_id).execute()
 
+    def snippetDeadMail(self, response):
+        messages = []
+        if 'messages' in response:
+            messages.extend(response['messages'])
+            for msg in messages:
+                msg_id = msg['id']
+                message = self.service.users().messages().get(
+                    userId='me',
+                    id=msg_id,
+                    format='minimal').execute()
+
+                print(message['snippet'])
+
+                if 'Test msg' in message['snippet']:
+                    self.service.users().messages().delete(userId='me',
+                                                           id=msg_id).execute()
+                if 'Hope you are doing well!' in message['snippet']:
+                    self.service.users().messages().delete(userId='me',
+                                                           id=msg_id).execute()
+
     def watch(self, service):
         request = {
             'labelIds': ['INBOX'],
@@ -98,6 +122,30 @@ class Mail:
                 creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open('credentials/token.pickle', 'wb') as token:
+                pickle.dump(creds, token)
+
+        return build('gmail', 'v1', credentials=creds)
+
+    def getServiceDeadMail(self):
+        creds = None
+        # The file token.pickle stores the user's access and refresh tokens,
+        # and is
+        # created automatically when the authorization flow completes for the
+        # first
+        # time.
+        if os.path.exists('credentials/tokenDeadMail.pickle'):
+            with open('credentials/tokenDeadMail.pickle', 'rb') as token:
+                creds = pickle.load(token)
+        # If there are no (valid) credentials available, let the user log in.
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    'credentials/credentials.json', SCOPES)
+                creds = flow.run_local_server(port=0)
+            # Save the credentials for the next run
+            with open('credentials/tokenDeadMail.pickle', 'wb') as token:
                 pickle.dump(creds, token)
 
         return build('gmail', 'v1', credentials=creds)
@@ -137,6 +185,17 @@ class Mail:
         #                                   'mchirico@gmail.com',
         #                                   'Sample message', fp.read())
         #     self.send_message(service, 'me', message)
+
+    def populateSnippetDeadMail(self):
+
+        labelIds = ['TRASH', 'Label_3932859394707228854']
+
+        response = self.service.users().messages().list(userId='me',
+                                                        labelIds=labelIds).execute()
+
+        self.snippetDeadMail(response)
+
+        return self.getListOfLabels()
 
     def create_message(self, sender, to, subject, message_text):
         """Create a message for an email.
