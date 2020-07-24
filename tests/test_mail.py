@@ -92,3 +92,9 @@ class MailTestSuite(TestCase):
         service = m.getServiceDeadMail()
         m.populateSnippetDeadMail()
 
+    def test_buildDeadLabels(self):
+        m = Mail('dead')
+        service = m.getServiceDeadMail()
+        r = m.buildDeadLabels('TEST')
+        self.assertIn('TRASH',r)
+

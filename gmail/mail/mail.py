@@ -186,15 +186,21 @@ class Mail:
         #                                   'Sample message', fp.read())
         #     self.send_message(service, 'me', message)
 
+    def buildDeadLabels(self, tag='TEST'):
+        labelIds = ['TRASH']
+        r = self.getListOfLabels()
+        add = [i['id'] for i in r if i['name'] == tag]
+        for i in add:
+            labelIds.insert(0, i)
+        return labelIds
+
     def populateSnippetDeadMail(self):
 
-        labelIds = ['TRASH', 'Label_3932859394707228854']
-
+        labelIds = self.buildDeadLabels('TEST')
         response = self.service.users().messages().list(userId='me',
                                                         labelIds=labelIds).execute()
 
         self.snippetDeadMail(response)
-
         return self.getListOfLabels()
 
     def create_message(self, sender, to, subject, message_text):
