@@ -34,10 +34,9 @@ class Mail:
     def __init__(self, service='default'):
         if service != 'default':
             self.service = self.getServiceDeadMail()
-            self.watch(self.service)
         else:
             self.service = self.getService()
-            self.watch(self.service)
+            # self.watch(self.service)
 
     def pickle_it(self, file, obj):
         with open(file, 'wb') as f:
