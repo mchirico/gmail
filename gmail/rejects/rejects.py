@@ -16,7 +16,7 @@ class Rejects:
               'email', 'cwxstat.com@', 'infosmartsys.com', '8', '7', '6', '5',
               '4',
               '3',
-              '9', '0','cynetsystems.com']
+              '9', '0','cynetsystems.com','@nityo.com']
 
     def match(self, returnpath):
         m = re.search(r"(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", returnpath)

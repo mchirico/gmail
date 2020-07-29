@@ -82,6 +82,7 @@ class PubSub:
                 # When `timeout` is not set, result() will block indefinitely,
                 # unless an exception is encountered first.
                 streaming_pull_future.result(timeout=timeout)
+
             except:  # noqa
                 streaming_pull_future.cancel()
 
