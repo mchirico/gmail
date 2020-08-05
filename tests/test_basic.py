@@ -9,6 +9,7 @@ class BasicTestSuite(unittest.TestCase):
     """Basic test cases."""
 
     def test_absolute_truth_and_meaning(self):
+        print("here..")
         assert True
 
 
