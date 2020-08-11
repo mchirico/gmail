@@ -1,0 +1,11 @@
+#!/bin/bash
+
+bq query --nouse_legacy_sql \
+'
+SELECT rtrim(replace(substr(returnpath,15,42),">","")) as returnpath  ,substr(subject,0,24) subject,substr(ltrim(msg),0, 50) msg,timeStamp FROM `septapig.mail.parsed`
+where 
+(returnpath not like "%mchirico%") and (returnpath not like "%cwxstat%")
+order by timeStamp desc
+LIMIT 10
+
+'
