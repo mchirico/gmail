@@ -12,11 +12,19 @@ from unittest import TestCase
 class AdvancedTestSuite(TestCase):
     """Advanced test cases."""
 
+    def test_CreateEML(self):
+        b = BigQ()
+
+# FIXME: Clean up... this actually write out email
     def test_BigQ(self):
         b = BigQ()
-        print(b.getTime())
-        # b.mdo('mike','b','s')
-        # self.assertEqual("we stuff", j.stuff())
+        row = b.createEML()
+        data = [c['txt'] for c in row][0]
+        email = data[2:-1].replace('\\r\\n', '\n')
+        f = open('junk.eml', 'w')
+        f.write(email)
+        f.close()
+        self.assertEqual(email[0:20],'Delivered-To: mc@cwx')
 
     def test_filter(self):
         b = BigQ()
