@@ -45,10 +45,9 @@ SELECT txt FROM `septapig.mail.parsed`
 where subject like 'RE: C2C Contracts Only.%'
 order by timeStamp desc
 LIMIT 1
-       """ 
+       """
         query_job = self.client.query(query)
         return query_job
-
 
     def getTime(self):
         query = "SELECT CURRENT_DATETIME('America/New_York') as now;"
@@ -61,10 +60,8 @@ LIMIT 1
         query_job = self.client.query(query)
         return query_job
 
-    def filter(self,returnpah):
-        return  self.rejects.returnpath(returnpah)
-
-
+    def filter(self, returnpah):
+        return self.rejects.returnpath(returnpah)
 
     def insert(self, id, ret, msg, raw, label=''):
         if self.filter(ret):
@@ -83,7 +80,8 @@ LIMIT 1
     def all_mesg_seen(self):
         query = """
         INSERT INTO `septapig.mail.reject_response`
-            SELECT a.returnpath,a.timeStamp FROM `septapig.mail.response` a left outer join   `septapig.mail.reject_response` b
+            SELECT a.returnpath,a.timeStamp FROM `septapig.mail.response` a 
+            left outer join   `septapig.mail.reject_response` b
             on a.returnpath=b.returnpath and a.timeStamp = b.timeStamp
             where b.returnpath is null
         """

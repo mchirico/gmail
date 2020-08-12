@@ -16,12 +16,10 @@ class TestSuitePubSub(TestCase):
 
     def test_PubSub(self):
         p = PubSub()
-        #p.send()
+        # p.send()
         p.read(2)
 
     def test_readMsgProcess(self):
         p = PubSub()
         p.send()
         p.readMsgProcess(5)
-
-
