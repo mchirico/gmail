@@ -15,7 +15,7 @@ class AdvancedTestSuite(TestCase):
     def test_CreateEML(self):
         b = BigQ()
 
-# FIXME: Clean up... this actually write out email
+    # FIXME: Clean up... this actually write out email
     def test_BigQ(self):
         b = BigQ()
         row = b.createEML()
@@ -24,7 +24,7 @@ class AdvancedTestSuite(TestCase):
         f = open('junk.eml', 'w')
         f.write(email)
         f.close()
-        self.assertEqual(email[0:20],'Delivered-To: mc@cwx')
+        self.assertEqual(email[0:20], 'Delivered-To: mc@cwx')
 
     def test_filter(self):
         b = BigQ()

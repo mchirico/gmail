@@ -24,12 +24,11 @@ class FirebaseEventTestSuite(TestCase):
         fbmail = FBmail()
         event = threading.Event()
 
-
         def mylog(msg):
             f.write('  {}\n'.format(str(msg)))
             f.flush()
 
-        s = fbmail.event(event,mylog)
+        s = fbmail.event(event, mylog)
 
         def start_operations():
             for i in range(0, 23):
@@ -41,9 +40,8 @@ class FirebaseEventTestSuite(TestCase):
                     f.flush()
                     event.clear()
 
-
         t1 = threading.Thread(target=start_operations)
-        #t0.start()
+        # t0.start()
         t1.start()
         time.sleep(29)
         s.unsubscribe()
