@@ -22,9 +22,10 @@ class AnalyzeTestSuite(TestCase):
 
     def test_WriteLatest(self):
         a = Analyze()
-        r = a.analyzeEML(1)
+        r = a.analyzeEML(4)
         if len(r[4]) > 0:
-            a.emailAlert('mchirico@gmail.com', r[4][0])
+            for msg in r[4]:
+                a.emailAlert('mchirico@gmail.com', msg)
         files = ['email/last.eml', 'email/last2.eml']
         a.writeEML(r[1], files)
         a.updateAnalysisTable(files[0])
