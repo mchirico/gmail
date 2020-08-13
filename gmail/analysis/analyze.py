@@ -73,3 +73,13 @@ class Analyze:
         for file, raw_email in zip(files, txtEMLs):
             email = cleanBinaryEmail(raw_email)
             b.createFromString(file, email)
+
+    def runAnalyze(self):
+        r = self.analyzeEML(4)
+        if len(r[4]) > 0:
+            for msg in r[4]:
+                self.emailAlert('mchirico@gmail.com', msg)
+        files = ['email/last.eml', 'email/last2.eml']
+        self.writeEML(r[1], files)
+        self.updateAnalysisTable(files[0])
+

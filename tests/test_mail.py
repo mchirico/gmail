@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 
+from gmail.analysis.analyze import Analyze
 from .context import gmail
 from gmail.mail.mail import Mail
 from gmail.bigQuery.bigquery import BigQ
@@ -97,3 +98,9 @@ class MailTestSuite(TestCase):
         service = m.getServiceDeadMail()
         r = m.buildDeadLabels('TEST')
         self.assertIn('TRASH', r)
+
+    # FIXME: 
+    #      Need to update code
+    def test_Analytics(self):
+        a = Analyze()
+        a.runAnalyze()
