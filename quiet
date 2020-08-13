@@ -10,6 +10,7 @@ INSERT INTO `septapig.mail.reject_response`
 
 bq query --nouse_legacy_sql \
 '
-select * from `septapig.mail.reject_response`;
+select * from `septapig.mail.reject_response`
+order by timeStamp desc limit 5;
 
 '
