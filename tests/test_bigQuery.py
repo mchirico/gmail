@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from time import sleep
 
-from gmail.mail.extract_eml import extract
+from gmail.mail.extract_eml import cleanBinaryEmail
 from gmail.mail.mail import Mail
 
 from .context import gmail
@@ -11,21 +11,8 @@ from gmail.parsePandas.parse import Parse
 from unittest import TestCase
 
 
-class AdvancedTestSuite(TestCase):
+class BigQueryTestSuite(TestCase):
     """Advanced test cases."""
-
-    def test_CreateEML(self):
-        b = BigQ()
-
-    # FIXME: Clean up... this actually write out email
-    def test_BigQ(self):
-        b = BigQ()
-        files = ['junk_0.eml', 'junk_1.eml']
-        row = b.createEML(len(files))
-        data = [c['txt'] for c in row]
-        for file, raw_email in zip(files, data):
-            email = extract(raw_email, file)
-            self.assertEqual(email[0:20], 'Delivered-To: mc@cwx')
 
     def test_filter(self):
         b = BigQ()
