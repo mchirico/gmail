@@ -39,13 +39,13 @@ class BigQ:
         [x for x in query_job]
         return query_job
 
-    def createEML(self):
+    def createEML(self,limit = 1):
         query = """
 SELECT txt FROM `septapig.mail.parsed` 
 where subject like 'RE: C2C Contracts Only.%'
 order by timeStamp desc
-LIMIT 1
-       """
+LIMIT {}
+       """.format(limit)
         query_job = self.client.query(query)
         return query_job
 
