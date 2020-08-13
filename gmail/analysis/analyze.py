@@ -20,11 +20,17 @@ class Analyze:
     def queryParsedEML(self, limit=1):
         b = BigQ()
         query = """
-        SELECT txt,subject,msg,timeStamp,returnpath FROM `septapig.mail.parsed` 
-        where subject like '%C2C Contracts Only.%'
-        and timeStamp > (select max(timeStamp) from `septapig.mail.analysis`)
-        order by timeStamp desc
-        LIMIT {}
+SELECT a.txt,a.subject,a.msg,a.timeStamp,a.returnpath,
+REPLACE(REPLACE(SUBSTR(a.returnpath,STRPOS(a.returnpath,'@'),390),">",""),
+"<","") as domain
+FROM `septapig.mail.parsed` a left outer join `septapig.mail.noC2C` b
+on REPLACE(REPLACE(SUBSTR(a.returnpath,STRPOS(a.returnpath,'@'),390),">",""),
+"<","") = b.domain
+where a.subject like '%C2C Contracts Only.%'
+and b.domain is null
+and timeStamp > (select max(timeStamp) from `septapig.mail.analysis`)
+LIMIT {}
+
                """.format(limit)
         return b.select(query)
 
@@ -82,4 +88,3 @@ class Analyze:
         files = ['email/last.eml', 'email/last2.eml']
         self.writeEML(r[1], files)
         self.updateAnalysisTable(files[0])
-
