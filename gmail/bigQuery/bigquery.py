@@ -42,7 +42,7 @@ class BigQ:
     def createEML(self,limit = 1):
         query = """
 SELECT txt FROM `septapig.mail.parsed` 
-where subject like 'RE: C2C Contracts Only.%'
+where subject like '%C2C Contracts Only.%'
 order by timeStamp desc
 LIMIT {}
        """.format(limit)

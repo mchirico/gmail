@@ -10,7 +10,7 @@ class Analyze:
         b = BigQ()
         query = """
         SELECT subject,msg,timeStamp,returnpath FROM `septapig.mail.parsed` 
-        where subject like 'RE: C2C Contracts Only.%'
+        where subject like '%: C2C Contracts Only.%'
         and timeStamp > (select max(timestamp) from `septapig.mail.analysis`)
         order by timeStamp desc
         LIMIT {}
@@ -21,8 +21,8 @@ class Analyze:
         b = BigQ()
         query = """
         SELECT txt,subject,msg,timeStamp,returnpath FROM `septapig.mail.parsed` 
-        where subject like 'RE: C2C Contracts Only.%'
-        and timeStamp > (select max(timestamp) from `septapig.mail.analysis`)
+        where subject like '%: C2C Contracts Only.%'
+        and timeStamp > (select max(timeStamp) from `septapig.mail.analysis`)
         order by timeStamp desc
         LIMIT {}
                """.format(limit)
@@ -35,7 +35,7 @@ class Analyze:
         returnpath,stored_file)
           SELECT txt,subject,msg,timeStamp,returnpath,'{}' FROM 
           `septapig.mail.parsed` 
-          where subject like 'RE: C2C Contracts Only.%'
+          where subject like '%: C2C Contracts Only.%'
         and timeStamp > (select max(timeStamp) from `septapig.mail.analysis`)
         """.format(stored_file)
         query_job = b.select(query)
