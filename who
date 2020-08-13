@@ -9,3 +9,4 @@ order by timeStamp desc
 LIMIT 10
 
 '
+gsutil cp gs://gmailmc/email/last.eml last.eml
