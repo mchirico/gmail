@@ -33,4 +33,4 @@ rejects = {'@objectwin.com': True, '@saibber108.com': True,
            '@jobspringpartners.com': True, '@mondo.com': True,
            'consulting.com': True, '.net': True, '@cyberthink.com': True,
            'delivery.email': True, '-it.com': True, 'postmaster': True,
-           'e-notify': True, 'outlook.in': True}
+           'e-notify': True, 'outlook.in': True, '@diversant.com': True}
