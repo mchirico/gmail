@@ -66,7 +66,7 @@ LIMIT {}
         return id
 
     def analyzeEML(self, limit=1):
-        row = self.queryParsedEML(1)
+        row = self.queryParsedEML(limit)
         txtEMLs = [c['txt'] for c in row]
         timeStamp = [c['timeStamp'] for c in row]
         txt = [c['timeStamp'] for c in row]
