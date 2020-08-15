@@ -12,6 +12,7 @@ class BigQ:
     def __init__(self):
         self.client = bigquery.Client()
         self.rejects = Rejects()
+        self.rejects.addToRejectS(self.rejectDomains())
 
     def clean(self, s):
         return re.sub(r'\W+', ' ', s)
@@ -48,6 +49,17 @@ class BigQ:
         query_job = self.client.query(query)
         [x for x in query_job]
         return query_job
+
+    def rejectDomains(self):
+        query = """
+        select domain from `septapig.mail.reject_domain_p`
+        """
+        query_job = self.client.query(query)
+        domains = []
+        for row in query_job:
+            # Row values can be accessed by field name or index.
+            domains.append(row["domain"])
+        return domains
 
     def createEML(self, limit=1):
         query = """

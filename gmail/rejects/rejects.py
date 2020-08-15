@@ -1,4 +1,5 @@
 import re
+
 from gmail.rejects.listing import rejects
 
 
@@ -19,6 +20,9 @@ class Rejects:
               '9', '0', 'cynetsystems.com', '@nityo.com', '@remote.co',
               'technology.com', 'karthik', 'rahul', 'Amit', 'Deepak',
               '@agstek.com', 'monster', 'consulting.net', 'sundari']
+
+    def addToRejectS(self, mylist):
+        self.mylist = self.mylist + mylist
 
     def match(self, returnpath):
         m = re.search(r"(@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", returnpath)

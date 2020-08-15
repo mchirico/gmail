@@ -53,3 +53,8 @@ where a.id is null
         b = BigQ()
         result = b.deleteMsgDays('%Test msg delete%', -2)
         self.assertEqual(result.state, 'DONE')
+
+    def test_rejectDomains(self):
+        b = BigQ()
+        domains = b.rejectDomains()
+        self.assertGreater(len(domains),2)
