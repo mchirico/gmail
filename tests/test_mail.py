@@ -80,8 +80,8 @@ class MailTestSuite(TestCase):
 
     def test_Delete_msg(self):
         q = BigQ()
-        q.deleteMsg('%Hope you are doing well%')
-        q.deleteMsg('%Test msg delete*%')
+        q.deleteMsgDays('%Hope you are doing well%')
+        q.deleteMsgDays('%Test msg delete*%')
 
     def test_GetService(self):
         m = Mail()

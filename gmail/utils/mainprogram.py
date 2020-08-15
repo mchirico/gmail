@@ -34,6 +34,7 @@ def cleanUpBadEmails():
     q = BigQ()
     q.deleteMsgDays('%Hope you are doing well%')
     q.deleteMsgDays('%Test msg delete*%')
+    q.delete100dayOld()
 
 
 def runAnalytics():
