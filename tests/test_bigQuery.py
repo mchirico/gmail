@@ -51,5 +51,5 @@ where a.id is null
         m.populateSnippet()
         sleep(1)
         b = BigQ()
-        result = b.deleteMsg('%Test msg delete%')
+        result = b.deleteMsgDays('%Test msg delete%', -2)
         self.assertEqual(result.state, 'DONE')

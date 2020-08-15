@@ -1,5 +1,6 @@
 from google.cloud import bigquery
 from gmail.rejects.rejects import Rejects
+from datetime import datetime, timedelta
 import os
 import re
 
@@ -39,7 +40,16 @@ class BigQ:
         [x for x in query_job]
         return query_job
 
-    def createEML(self,limit = 1):
+    def deleteMsgDays(self, msg, days=-1):
+        FROM = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
+
+        query = "delete  FROM `septapig.mail.mc` " \
+                "where msg like '%s' and timeStamp >= '%s';" % (msg, FROM)
+        query_job = self.client.query(query)
+        [x for x in query_job]
+        return query_job
+
+    def createEML(self, limit=1):
         query = """
 SELECT txt FROM `septapig.mail.parsed` 
 where subject like '%C2C Contracts Only.%'

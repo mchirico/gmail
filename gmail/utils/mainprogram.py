@@ -32,8 +32,8 @@ def insertTableMC():
 
 def cleanUpBadEmails():
     q = BigQ()
-    q.deleteMsg('%Hope you are doing well%')
-    q.deleteMsg('%Test msg delete*%')
+    q.deleteMsgDays('%Hope you are doing well%')
+    q.deleteMsgDays('%Test msg delete*%')
 
 
 def runAnalytics():
