@@ -61,6 +61,16 @@ class BigQ:
             domains.append(row["domain"])
         return domains
 
+    def delete100dayOld(self):
+        query = """
+        delete FROM `septapig.mail.mc`
+          where timeStamp <  TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 100 
+          DAY)
+        """
+        query_job = self.client.query(query)
+        [x for x in query_job]
+        return query_job
+
     def createEML(self, limit=1):
         query = """
 SELECT txt FROM `septapig.mail.parsed` 

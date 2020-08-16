@@ -30,10 +30,11 @@ def insertTableMC():
         q.insert(i[0], i[1], i[2], i[4], i[5])
 
 
-def cleanUpBadEmails():
+def cleanUpEmails():
     q = BigQ()
     q.deleteMsgDays('%Hope you are doing well%')
     q.deleteMsgDays('%Test msg delete*%')
+    q.delete100dayOld()
 
 
 def runAnalytics():
@@ -44,5 +45,5 @@ def runAnalytics():
 def MainProcess():
     insertTableMC()
     UpdateTableParsed()
-    cleanUpBadEmails()
+    cleanUpEmails()
     runAnalytics()
