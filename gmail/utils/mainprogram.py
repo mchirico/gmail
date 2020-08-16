@@ -2,6 +2,7 @@ from gmail.analysis.analyze import Analyze
 from gmail.bigQuery.bigquery import BigQ
 from gmail.mail.mail import Mail
 from gmail.parsePandas.parse import Parse
+from datetime import datetime
 
 
 def UpdateTableParsed():
@@ -35,6 +36,9 @@ def cleanUpEmails():
     q.deleteMsgDays('%Hope you are doing well%')
     q.deleteMsgDays('%Test msg delete*%')
     q.delete100dayOld()
+    # Sunday update ignore domains
+    if datetime.today().weekday() == 6:
+        q.addDomainsToIgnore()
 
 
 def runAnalytics():

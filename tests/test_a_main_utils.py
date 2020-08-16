@@ -1,16 +1,6 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from time import sleep
-
-from gmail.analysis.analyze import Analyze
-from gmail.mail.extract_eml import cleanBinaryEmail
-from gmail.mail.mail import Mail
-from gmail.storage.storage import Buckets
-from gmail.utils.mainprogram import MainProcess
-
 from .context import gmail
-from gmail.bigQuery.bigquery import BigQ
-from gmail.parsePandas.parse import Parse
+from gmail.utils.mainprogram import MainProcess
 
 from unittest import TestCase
 

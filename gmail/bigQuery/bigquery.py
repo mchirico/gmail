@@ -71,6 +71,19 @@ class BigQ:
         [x for x in query_job]
         return query_job
 
+    def addDomainsToIgnore(self):
+        query = """
+insert `septapig.mail.reject_domain_p` (domain) 
+SELECT distinct b.domain as domain FROM `septapig.mail.reject_domain_p` a
+RIGHT OUTER JOIN `septapig.mail.reject_domain` b
+on a.domain = b.domain
+where a.domain is null
+
+        """
+        query_job = self.client.query(query)
+        [x for x in query_job]
+        return query_job
+
     def createEML(self, limit=1):
         query = """
 SELECT txt FROM `septapig.mail.parsed` 
