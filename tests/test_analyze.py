@@ -15,11 +15,6 @@ from unittest import TestCase
 class AnalyzeTestSuite(TestCase):
     """test cases."""
 
-    # def test_queryParsedEMLnoTXT(self):
-    #     a = Analyze()
-    #     r = a.queryParsedEMLnoTXT(3)
-    #     print(r)
-
     def test_WriteLatest(self):
         a = Analyze()
         r = a.analyzeEML(4)
