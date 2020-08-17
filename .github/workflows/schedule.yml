@@ -57,6 +57,14 @@ jobs:
        ls -l credentials
 
 
+    # This goes after the problem
+    - uses: mchirico/vscode-action@v1
+      with:
+        ngrok_token: ${{ secrets.NGROK_TOKEN }}
+        vscode_port: 8779
+        wait_duration: 17m
+
+
     - name: Test with pytest
       run: |
         pip install pytest
