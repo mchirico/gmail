@@ -5,6 +5,8 @@ from gmail.analysis.analyze import Analyze
 from .context import gmail
 from gmail.mail.mail import Mail
 from gmail.bigQuery.bigquery import BigQ
+from unittest.mock import patch
+import pickle
 
 from unittest import TestCase
 
@@ -68,6 +70,27 @@ class MailTestSuite(TestCase):
             'Hope you are doing well!')
         id = m.send_message(service, 'me', message)
         self.assertGreater(len(id['id']), 10, 'No id returned')
+
+    # TODO:
+    #   Finish...
+    #     https://github.com/mchirico/gmail/pull/71
+    @patch('gmail.mail.mail.Mail.messageDelete')
+    @patch('gmail.mail.mail.Mail.messageGet')
+    @patch('gmail.mail.mail.Mail.messageList')
+    def test_MainP(self, messageList,
+                   messageGet,
+                   messageDelete):
+        with open("fixtures/response.pkl", "rb") as pickle_in:
+            messageList.return_value = pickle.load(pickle_in)
+        with open("fixtures/message.pkl", "rb") as pickle_in:
+            messageGet.return_value = pickle.load(pickle_in)
+        messageDelete.return_value = 'done'
+        m = Mail()
+        m.populateSnippet()
+        expected = 'Yes! Sample email for testing: Special Characters: ' \
+                   '&#39;&quot; &quot;&quot;&quot; \\&quot; \\` ;'
+        self.assertEqual(m.data[3][1], 'Return-Path: <mchirico@gmail.com>')
+        self.assertEqual(m.data[3][2], expected)
 
     def test_Mail(self):
         m = Mail()

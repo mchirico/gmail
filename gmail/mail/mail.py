@@ -46,16 +46,33 @@ class Mail:
         with open(file, 'rb') as f:
             return pickle.load(f)
 
+    def messageGet(self, userId,
+                   id,
+                   format='raw'):
+        return self.service.users().messages().get(
+            userId=userId,
+            id=id,
+            format=format).execute()
+
+    def messageDelete(self, userId, id):
+        return self.service.users().messages().delete(userId=userId,
+                                                      id=id).execute()
+
+    def messageList(self, label):
+        return self.service.users() \
+            .messages().list(userId='me',
+                             labelIds=label).execute()
+
     def snippet(self, response, label=''):
         messages = []
         if 'messages' in response:
             messages.extend(response['messages'])
             for msg in messages:
                 msg_id = msg['id']
-                message = self.service.users().messages().get(
+                message = self.messageGet(
                     userId='me',
                     id=msg_id,
-                    format='raw').execute()
+                    format='raw')
                 print('\n\n --------------------- \n\n')
                 print(message['snippet'])
                 msg_str = base64.urlsafe_b64decode(
@@ -71,8 +88,8 @@ class Mail:
                     reply = 'not found'
                 self.data.append([msg_id, reply, message['snippet'],
                                   msg_str[0:1500], message['raw'], label])
-                self.service.users().messages().delete(userId='me',
-                                                       id=msg_id).execute()
+                self.messageDelete(userId='me',
+                                   id=msg_id)
 
     def snippetDeadMail(self, response):
         messages = []
@@ -172,18 +189,10 @@ class Mail:
 
         labelIds = ['INBOX', 'SPAM', 'TRASH', 'SENT']
         for label in labelIds:
-            response = self.service.users().messages().list(userId='me',
-                                                            labelIds=label).execute()
-
+            response = self.messageList(label)
             self.snippet(response, label)
 
         return self.getListOfLabels()
-
-        # with open("./junk.txt") as fp:
-        #     message = self.create_message('mc@cwxstat.com',
-        #                                   'mchirico@gmail.com',
-        #                                   'Sample message', fp.read())
-        #     self.send_message(service, 'me', message)
 
     def buildDeadLabels(self, tag='TEST'):
         labelIds = ['TRASH']
