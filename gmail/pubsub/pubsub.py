@@ -6,6 +6,11 @@ from gmail.bigQuery.bigquery import BigQ
 # TODO topic_name = "Your Pub/Sub topic name"
 from gmail.mail.mail import Mail
 
+import logging
+logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
+
+
+
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials/proj.json"
 # projects/quickstart-1586788855488/topics/gmail-topic
 PROJECT = 'quickstart-1586788855488'

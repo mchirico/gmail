@@ -4,6 +4,11 @@ from datetime import datetime, timedelta
 import os
 import re
 
+import logging
+logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
+
+
+
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "credentials/proj.json"
 
 
