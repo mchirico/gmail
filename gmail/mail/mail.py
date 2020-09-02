@@ -19,6 +19,9 @@ import pickle
 
 from apiclient import errors
 
+import logging
+logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
+
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://mail.google.com/',
           'https://www.googleapis.com/auth/gmail.readonly',
