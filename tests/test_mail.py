@@ -77,7 +77,7 @@ class MailTestSuite(TestCase):
     @patch('gmail.mail.mail.Mail.messageDelete')
     @patch('gmail.mail.mail.Mail.messageGet')
     @patch('gmail.mail.mail.Mail.messageList')
-    def test_MainP(self, messageList,
+    def test_zMainP(self, messageList,
                    messageGet,
                    messageDelete):
         with open("fixtures/response.pkl", "rb") as pickle_in:
